@@ -1,14 +1,17 @@
-<div x-data="{ openDisposition: false, openLeadManagement: false, openSidebar: false}" x-on:click.away="openSidebar = false">
-    <button type="button" x-on:click="openSidebar = !openSidebar" class="absolute left-2 top-2 p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+<div x-data="{ openSidebar: false }" x-on:click.away="openSidebar = false" class="fixed top-16 w-64 h-full text-white">
+    <button type="button" x-on:click="openSidebar = !openSidebar" class="absolute left-2 top-2 p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
         <span class="sr-only">Open sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-6 h-6" aria-hidden="true" fill="rgb(240, 240, 240)" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
         </svg>
     </button>
 
-    <aside x-data="openSidebar: false" x-cloak x-transition:enter="transition-transform transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition-transform transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" :class="{'block': openSidebar, 'hidden': !openSidebar}" class="fixed top-0 left-0 w-64 h-screen bg-gray-800 lg:border-t border-white z-40 sm:relative sm:w-64 sm:block sm:translate-x-0" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-100 lg:border-r border-gray-200">
-            <ul class="space-y-2 font-medium">
+    <aside x-cloak x-transition:enter="transition-transform transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition-transform transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" 
+        :class="{'block': openSidebar, 'hidden': !openSidebar}" 
+        class="h-full bg-gray-200 z-40 lg:relative lg:block lg:translate-x-0" aria-label="Sidebar"
+        >
+        <div class="px-3 py-4 overflow-y-auto lg:border-r border-gray-200">
+            <ul class="space-y-4 font-medium">
                 <li>
                     <x-side-nav-link :active="request()->routeIs('home')" :href="route('home')">
                         <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-700" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -19,9 +22,9 @@
                 </li>
 
                 <!-- Marketing Dropdown -->
-                <x-side-dropdown>
+                <x-side-dropdown :active="request()->routeIs('*marketing*')">
                     <x-slot name="trigger">
-                        <button x-on:click=" open = !" type="button" class="flex items-center w-full p-2 text-base text-gray-700 transition duration-75 rounded-lg group hover:text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                        <button type="button" class="flex items-center w-full p-2 text-base text-gray-700 transition duration-75 rounded-lg group hover:text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                                 <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z" />
                             </svg>
@@ -32,16 +35,27 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <li>
-                            <x-side-dropdown-link :href="route('marketing.summary')" wire:navigate>
-                                {{ __('Summary') }}
-                            </x-side-dropdown-link>
-                        </li>
+                        <x-side-dropdown-link :href="route('marketing.summary')" :active="request()->routeIs('marketing.summary')"  wire:navigate>
+                            {{ __('Summary') }}
+                        </x-side-dropdown-link>
+                
+                        <x-side-dropdown-link  :active="request()->routeIs('marketing.digital')"  wire:navigate>
+                            {{ __('Digital') }}
+                        </x-side-dropdown-link>
+                    
+                        <x-side-dropdown-link  :active="request()->routeIs('marketing.assets')"  wire:navigate>
+                            {{ __('Assets') }}
+                        </x-side-dropdown-link>
+                    
+                        <x-side-dropdown-link  :active="request()->routeIs('marketing.call-form-detail')"  wire:navigate>
+                            {{ __('Call & Form Detail') }}
+                        </x-side-dropdown-link>
+                    
                     </x-slot>
                 </x-side-dropdown>
 
                 <!-- Call Disposition Dropdown -->
-                <x-side-dropdown>
+                <x-side-dropdown :active="request()->routeIs('*disposition*')">
                     <x-slot name="trigger">
                         <button x-on:click=" open = !" type="button" class="flex items-center w-full p-2 text-base text-gray-700 transition duration-75 rounded-lg group hover:text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -54,18 +68,32 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <li>
-                            <x-side-dropdown-link :href="route('disposition.summary')" wire:navigate>
-                                {{ __('Summary') }}
-                            </x-side-dropdown-link>
-                        </li>
+                        <x-side-dropdown-link :href="route('disposition.summary')" :active="request()->routeIs('disposition.summary')" wire:navigate>
+                            {{ __('Summary') }}
+                        </x-side-dropdown-link>
+                    
+                        <x-side-dropdown-link  :active="request()->routeIs('disposition.dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-side-dropdown-link>
+                
+                        <x-side-dropdown-link  :active="request()->routeIs('disposition.analysis')" wire:navigate>
+                            {{ __('Disposition Analysis') }}
+                        </x-side-dropdown-link>
+                    
+                        <x-side-dropdown-link  :active="request()->routeIs('disposition.specifics')" wire:navigate>
+                            {{ __('Call Specifics') }}
+                        </x-side-dropdown-link>
+                    
+                        <x-side-dropdown-link  :active="request()->routeIs('disposition.recruiter')" wire:navigate>
+                            {{ __('Recruiter Breakdown') }}
+                        </x-side-dropdown-link>
                     </x-slot>
                 </x-side-dropdown>
 
 
 
                 <!-- Lead Management Dropdown -->
-                <x-side-dropdown>
+                <x-side-dropdown :active="request()->routeIs('*lead-management*')">
                     <x-slot name="trigger">
                         <button x-on:click=" open = !" type="button" class="flex items-center w-full p-2 text-base text-gray-700 transition duration-75 rounded-lg group hover:text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -78,11 +106,15 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <li>
-                            <x-side-dropdown-link :href="route('lead-management.summary')" wire:navigate>
-                                {{ __('Summary') }}
-                            </x-side-dropdown-link>
-                        </li>
+                        <x-side-dropdown-link :href="route('lead-management.profiles')" :active="request()->routeIs('lead-management.profiles')" wire:navigate>
+                            {{ __('Profiles') }}
+                        </x-side-dropdown-link>
+                        <x-side-dropdown-link :href="route('lead-management.jobs.index')" :active="request()->routeIs('lead-management.jobs.index')" wire:navigate>
+                            {{ __('Jobs') }}
+                        </x-side-dropdown-link>
+                        <x-side-dropdown-link :href="route('lead-management.reporting')" :active="request()->routeIs('lead-management.reporting')" wire:navigate>
+                            {{ __('Reporting') }}
+                        </x-side-dropdown-link>
                     </x-slot>
                 </x-side-dropdown>
                 <!--                 <li>
